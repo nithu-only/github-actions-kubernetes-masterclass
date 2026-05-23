@@ -1,19 +1,28 @@
-# Stage 1: Build
+# Stage 1 - Build
 FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
+COPY go.mod go.sum ./
+RUN go mod download
+
 COPY . .
-RUN go mod tidy && CGO_ENABLED=0 GOOS=linux go build -o skillpulse .
 
-# Stage 2: Run
+RUN CGO_ENABLED=0 GOOS=linux \
+go build -ldflags="-w -s" \
+-o skillpulse .
+
+# Stage 2 - Runtime
 FROM alpine:3.23
-
-RUN apk --no-cache add ca-certificates
 
 WORKDIR /app
 
+RUN apk add --no-cache ca-certificates=20250911-r0 || \
+    apk add --no-cache ca-certificates
+
 COPY --from=builder /app/skillpulse .
+
+USER nobody
 
 EXPOSE 8080
 

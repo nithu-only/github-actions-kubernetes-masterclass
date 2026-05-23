@@ -32,8 +32,8 @@ spec:
     spec:
       containers:
         - name: backend
-          image: trainwithshubham/skillpulse-backend:latest
-          imagePullPolicy: IfNotPresent
+          image: himanshugohil18/skillpulse-backend:7d5f5170017c90b4210d6e2c6494c4abab3193e9
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080
@@ -69,11 +69,14 @@ spec:
             httpGet:
               path: /health
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 10
+            failureThreshold: 10
+
           readinessProbe:
             httpGet:
               path: /health
               port: 8080
-            initialDelaySeconds: 5
+            initialDelaySeconds: 30
             periodSeconds: 5
+            failureThreshold: 10

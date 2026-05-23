@@ -1,4 +1,5 @@
 services:
+# Service Database
   db:
     image: mysql:8.4
     restart: unless-stopped
@@ -20,7 +21,8 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-    
+
+# Service Backend    
   backend:
     image: ${DOCKERHUB_USERNAME}/skillpulse-backend:latest
     build: ./backend
@@ -39,6 +41,7 @@ services:
       db:
         condition: service_healthy
 
+# Service FrontEnd
   frontend:
     image: ${DOCKERHUB_USERNAME}/skillpulse-frontend:latest
     build: ./frontend
@@ -50,8 +53,10 @@ services:
     depends_on:
       - backend
 
+# Volume
 volumes:
   mysql_data:
 
+# Networks
 networks:
   skillpulse:

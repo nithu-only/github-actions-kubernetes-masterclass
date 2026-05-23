@@ -33,8 +33,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: trainwithshubham/skillpulse-frontend:latest
-          imagePullPolicy: IfNotPresent
+          image: himanshugohil18/skillpulse-frontend:7d5f5170017c90b4210d6e2c6494c4abab3193e9
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80
